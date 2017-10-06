@@ -1,35 +1,11 @@
 ﻿<!-- 
-// some hard wired properties available from the settings 
-{#module_name#}  - name of the parent script module
-{#module_notes#}  - description of the template contents
-
-// Entity metadata property escape syntax
-{#ent (property)#}      - raw property name.  Ex: {#ent(IsSLAEnabled)#}
-
-// Entity metadata property escape syntax
-{#attr (property)#}      - raw property name.  Ex: {#ent(AttributeType)#}
-
-// Both Entity and Attribute metadata objects support these escape methods
-{#attr upper(property)#}, {#ent upper(property)#}
-{#attr lower(property)#}, {#ent lower(property)#}
-{#attr title(property)#}, {#ent title(property)#}
-
-// attributes have some special outputs
-{#attr dt(AttributeType)#} - data type converted to script data type.  
-                        NOTE: only applies to the attribute property of AttributeType which is an AttributeTypeCode 
-
-{#attr api(SchemaName)#} - requires special formatting for the WebAPI calls to work
-                         NOTE: only applies to the attribute SchemaName
+// refer to the wiki for syntax details: https://github.com/jamesnovak/CrmSvcUtilTS/wiki/Template-Reference
 -->
 <template>
-
   <entity>
-    <!-- Begin new Entity generation -->
-    <![CDATA[Entity Logical Name: {#ent title(LogicalName)#} ]]>
-    <!-- Attributes for base Interface-->
-    <attribute_list>
+	<![CDATA[Entity Logical Name: {#ent title(LogicalName)#}, IsActivity: {#ent (IsActivity)#} ]]>
+	<attribute_list>
 <![CDATA[	Attribute Schema Name: {#attr api(LogicalName)#}	For WebAPI: {#attr api(SchemaName)#}	Data Type: {#attr dt(AttributeType)#}]]>
-    </attribute_list>
-    <!-- End new Entity generation -->
+	</attribute_list>
   </entity>
 </template>
