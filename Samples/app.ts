@@ -1,9 +1,4 @@
-﻿/// <reference path="D:\_source\CSRA\MCS_PSOB\MCS.WebResources\MCS.WebResources\scripts\typings\xrm\xrm.d.ts" />
-/// <reference path="D:\_source\CSRA\MCS_PSOB\MCS.WebResources\MCS.WebResources\scripts\typings\jquery\mask.d.ts" />
-/// <reference path="D:\_source\CSRA\MCS_PSOB\MCS.WebResources\MCS.WebResources\scripts\typings\jquery\jquery.d.ts" />
-/// <reference path="D:\_source\CSRA\MCS_PSOB\MCS.WebResources\MCS.WebResources\scripts\typings\ui-grid\index.d.ts" />
-/// <reference path="D:\_source\CSRA\MCS_PSOB\MCS.WebResources\MCS.WebResources\scripts\typings\lodash\index.d.ts" />
-/// <reference path="xrm.ts" />
+﻿/// <reference path="xrm.ts" />
 
 // set up global instance of account object
 var _account: MCS.Account.account_entity;
