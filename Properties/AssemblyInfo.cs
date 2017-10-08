@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Xrm.Tools.CrmSvcUtilTS")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A utility that generates typescript that aids in WebAPI calls and form scripting")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Futurez Consulting")]
+[assembly: AssemblyCompany("Futurez Consulting and Brendon Colburn")]
 [assembly: AssemblyProduct("Xrm.Tools.CrmSvcUtilTS")]
-[assembly: AssemblyCopyright("Copyright Futurez Consulting © 2017")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
