@@ -55,6 +55,8 @@ namespace Xrm.Tools
                         var config = e.Argument as ConfigurationInfo;
 
                         e.Result = CrmActions.GetAllEntities(Service, config);
+
+                        w.ReportProgress(100, "Loading Templates from CRM Complete!");
                     }
                     catch (Exception ex)
                     {

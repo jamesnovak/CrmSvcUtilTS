@@ -177,15 +177,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-xcopy "$(TargetDir)$(TargetFileName)" "D:\OneDrive\Development\CRM Tools\XrmToolBox\Plugins\" /Y
+    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)" "D:\OneDrive\Development\CRM Tools\XrmToolBox\Plugins\" /Y
 xcopy "$(TargetDir)$(TargetName).pdb" "D:\OneDrive\Development\CRM Tools\XrmToolBox\Plugins\" /Y
 xcopy "$(TargetDir)$(TargetFileName)" "$(ProjectDir)NuGet\Package\lib\net452\Plugins\" /Y
 
 if $(ConfigurationName) == Debug (
   IF NOT EXIST Plugins mkdir Plugins
-  move /Y $(TargetFileName) Plugins
-  move /Y $(TargetName).pdb Plugins
+  copy /Y $(TargetFileName) Plugins
+  copy /Y $(TargetName).pdb Plugins
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
