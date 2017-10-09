@@ -94,15 +94,7 @@ namespace Xrm.Tools
             EntityTypes = EnumEntityTypes.BothCustomAndSystem;
             RetrieveAsIfPublished = false;
             TemplateContent = Properties.Resources.Angular_Xrm_ts_xml;
-            ScriptTemplate = "Angular.ts.template";
-            // TODO - make this a configurable bit?
-            //ScriptFrameworks = new ScriptFramework[] {
-            //    new ScriptFramework() {
-            //        DisplayName = "Angular",
-            //        TemplateFileName = "Angular.ts.template",
-            //        TemplateContents = Properties.Resources.Angular_Xrm_ts_xml
-            //    }
-            //};
+            ScriptTemplate = "Angular.Xrm.ts.Xml";
         }
         #endregion
 

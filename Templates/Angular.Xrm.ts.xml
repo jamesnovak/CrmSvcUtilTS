@@ -373,7 +373,7 @@ module {#module_name#} {
   }
   
   //** Collection of Attribute structures for {#ent title(LogicalName)#} */
-  export class {#ent title(LogicalName)#}Attributes {
+  export class {#ent (LogicalName)#}Attributes {
  ]]>
       <!-- Attributes for Attributes list -->
       <attribute_list>
@@ -384,7 +384,7 @@ module {#module_name#} {
 
   /** @description Instantiates a {#ent title(LogicalName)#} Entity to be used for CRUD based operations
   * @param {object} initData An optional parameter for a create and update entities */
-  export class {#ent title(LogicalName)#} extends Entity {
+  export class {#ent (LogicalName)#} extends Entity {
 		[key: string]: string | number
 		public route: string = "{#ent title(LogicalName)#}s";
  ]]>
