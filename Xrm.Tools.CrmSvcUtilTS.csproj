@@ -159,7 +159,15 @@
       <DependentUpon>Xrm2TSControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\typings\axios\index.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\xrm\parature.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\xrm\xrm-6.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\xrm\xrm-7.0.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\xrm\xrm-7.1.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\xrm\xrm.d.ts" />
+    <TypeScriptCompile Include="Templates\AxiosTemplate.ts" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Templates\Angular.Xrm.ts.xml">
       <SubType>Designer</SubType>
@@ -171,6 +179,7 @@
     <Content Include="Images\microsoft 32.png" />
     <Content Include="Images\microsoft 80.png" />
     <Content Include="Images\notif_icn_info16.png" />
+    <Content Include="Templates\AxiosTemplate.xml" />
     <Content Include="Templates\Xrm.Template.Sample.xml">
       <SubType>Designer</SubType>
     </Content>
