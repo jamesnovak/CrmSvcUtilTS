@@ -12,6 +12,7 @@ using XrmToolBox.Extensibility.Interfaces;
 
 using Xrm.Tools.Helper;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace Xrm.Tools
 {
@@ -334,6 +335,17 @@ namespace Xrm.Tools
             UpdateSelectedItemsList();
         }
         #endregion
+        
+        /// <summary>
+        /// Get's the name of a resource.. as long as you add it through the designer... and it's xml
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        static string GetNameOf<T>(Expression<Func<T>> property)
+        {
+            return $"{(property.Body as MemberExpression).Member.Name}.xml";
+        }
 
         #region Initialization
 
@@ -348,14 +360,21 @@ namespace Xrm.Tools
             // set up some of the config info.
             var config = new ConfigurationInfo();
 
-            // output the default template from the embedded resource
-            config.ScriptTemplate = Path.Combine(Utility.GetToolSettingsFolder(), config.ScriptTemplate);
-            if (File.Exists(config.ScriptTemplate))
-            {
-                File.Delete(config.ScriptTemplate);
-            }
+            config.ScriptTemplate = writeTemplates(config.ScriptTemplate, config.TemplateContent);
+            writeTemplates(GetNameOf(() => Properties.Resources.AxiosTemplate), Properties.Resources.AxiosTemplate);
 
-            File.WriteAllText(config.ScriptTemplate, config.TemplateContent);
+            string writeTemplates(string fileName, string fileContent)
+            {
+                var filePath = Path.Combine(Utility.GetToolSettingsFolder(), fileName);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+                File.WriteAllText(filePath, fileContent);
+
+                return filePath;
+            }
 
             // set up the properties grid with the config settings
             propertyGridConfig.SelectedObject = config;

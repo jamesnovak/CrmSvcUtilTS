@@ -25,7 +25,7 @@
   <![CDATA[
 /** @description {#module_notes#}
  */
-module {#module_name# } {
+module {#module_name#} {
 	/** @description Specifies that Entities always have a url route and optionally have an id
 	 */
     export abstract class Entity {
@@ -347,11 +347,57 @@ module {#module_name# } {
   ]]>
   <entity>
     <!-- Begin new Entity generation -->
-    <![CDATA[Entity Logical Name: {#ent title(LogicalName)#} ]]>
+    <![CDATA[
+	//** @description AUTO GENERATED CLASSES FOR {#ent title(LogicalName)#}
+	// ------------------------------------------------------------------------------------------
+	//** @description WebAPI collection interface for {#ent title(LogicalName)#} */
+	export interface I{#ent title(LogicalName)#}s extends IRetrieveMultipleData<I{#ent title(LogicalName)#}> {}
+
+	//** @description WebAPI interface for {#ent title(LogicalName)#} */
+	export interface I{#ent title(LogicalName)#} {
+		[key: string]: string | number ]]>
     <!-- Attributes for base Interface-->
     <attribute_list>
-      <![CDATA[	Attribute Schema Name: {#attr api(LogicalName)#}	For WebAPI: {#attr api(SchemaName)#}	Data Type: {#attr dt(AttributeType)#}]]>
+      <![CDATA[		{#attr api(SchemaName)#}?: {#attr dt(AttributeType)#}]]>
     </attribute_list>
+    <![CDATA[
+  }
+  
+  //** Collection of Attribute structures for {#ent title(LogicalName)#} */
+  export class {#ent (LogicalName)#}Attributes {
+ ]]>
+    <!-- Attributes for Attributes list -->
+    <attribute_list>
+      <![CDATA[		{#attr lower(SchemaName)#}: IAttribName = { name:"{#attr lower(SchemaName)#}", api_name:"{#attr api(SchemaName)#}" } ]]>
+    </attribute_list>
+    <![CDATA[
+	}
+
+  /** @description Instantiates a {#ent title(LogicalName)#} Entity to be used for CRUD based operations
+  * @param {object} initData An optional parameter for a create and update entities */
+  export class {#ent (LogicalName)#} extends Entity {
+		[key: string]: string | number
+		public route: string = "{#ent title(LogicalName)#}s";
+ ]]>
+    <!-- Attributes for entity fields -->
+    <attribute_list>
+      <![CDATA[		public {#attr api(SchemaName)#}:{#attr dt(AttributeType)#};]]>
+    </attribute_list>
+    <![CDATA[
+		constructor(initData?: I{#ent title(LogicalName)#}) {
+			super("{#ent lower(LogicalName)#}s");
+			if (initData == undefined) { return; } 
+      
+			this.id = initData.{#ent (PrimaryIdAttribute)#};]]>
+    <!-- Attributes for entity contstuctor intialization -->
+    <attribute_list>
+      <![CDATA[			this.{#attr api(SchemaName)#} = initData.{#attr api(SchemaName)#};]]>
+    </attribute_list>
+    <![CDATA[
+		}
+	}]]>
     <!-- End new Entity generation -->
   </entity>
+  <![CDATA[
+}]]>
 </template>
