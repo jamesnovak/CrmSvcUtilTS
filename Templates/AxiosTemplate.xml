@@ -343,7 +343,7 @@ module {#module_name#} {
             return config;
         }
     }
-}
+
   ]]>
   <entity>
     <!-- Begin new Entity generation -->
