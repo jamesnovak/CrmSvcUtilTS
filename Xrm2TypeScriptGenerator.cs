@@ -126,6 +126,11 @@ namespace Xrm.Tools
                                 if (_configuration.FilterAttribute(attrib.SchemaName))
                                     continue;
 
+                                // decide whether we want to include processing a virtual attrib
+                                if (attrib.AttributeType == AttributeTypeCode.Virtual && !_configuration.IncludeVirtualAttribute) {
+                                    continue;
+                                }
+
                                 output.AppendLine(ProcessCDataSection(cdata, attrib));
                             }
                             break;
@@ -211,8 +216,7 @@ namespace Xrm.Tools
                     _attribSlugs = new Dictionary<string, string>();
                     _currentAttribMeta = attribMeta;
 
-                    foreach (var attribProp in _attributeProperties)
-                    {
+                    foreach (var attribProp in _attributeProperties) {
                         // grab the value from the attribute metadata object
                         var prop = new KeyValuePair<string, string>(attribProp.Name.ToLower(), GetPropertyValue(attribMeta, attribProp));
 
@@ -320,7 +324,10 @@ namespace Xrm.Tools
                     var label = (Label)dataValue;
                     if (label.LocalizedLabels.Count > 0)
                     {
-                        propValue = label.LocalizedLabels[0].Label;
+                        var localLabel = label.LocalizedLabels.Where(l => l.LanguageCode == _configuration.LanguageCode).First();
+                        if (localLabel != null) {
+                            propValue = localLabel.Label;
+                        }
                     }
                 }
                 else

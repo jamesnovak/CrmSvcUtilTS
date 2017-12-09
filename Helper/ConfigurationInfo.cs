@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
+
+using System.IO;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+
+using System.Xml;
 
 using Xrm.Tools.Helper;
 
 namespace Xrm.Tools
 {
+    #region Enums
     public enum EnumLoggingLevel
     {
         None,
@@ -29,17 +36,33 @@ namespace Xrm.Tools
         EndsWith,
         RegEx
     }
+    #endregion
 
     [DisplayName("Filter Criteria")]
     [Category("Filter Settings")]
     [Description("Class containing information about exclusion filters")]
     [DefaultProperty("FilterString")]
     public class FilterInfo {
+        private string _filterString = "";
+
         [DisplayName("Filter Text")]
         [Description("Provide the filter text to be applied")]
         [Category("Filter Settings")]
-
-        public string FilterString{ get; set; }
+        public string FilterString{ get { return _filterString; }
+            set {
+                _filterString = value;
+                // make sure this is a valid regex
+                if (FilterMatchType == EnumFilterMatchType.RegEx) {
+                    try {
+                        Regex regex = new Regex(_filterString);
+                    }
+                    catch (Exception ex) {
+                        MessageBox.Show($"Invalid regex expression: '{value}'\nChanging Match Type to 'Contains'\nError message: {ex.Message}", "Invalid regular expression", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.FilterMatchType = EnumFilterMatchType.Contains;
+                    }
+                }
+            }
+        }
 
         [DisplayName("Filter Match")]
         [Description("Choose how this Filter String will be applied")]
@@ -51,33 +74,17 @@ namespace Xrm.Tools
         }
     }
 
-    //// TODO - each framework target has a few settings?
-    //// need to iron out just how to make this "pluggable"
-    //public class ScriptFramework {
-
-    //    /// <summary>
-    //    /// Display name of the script framework being generated
-    //    /// </summary>
-    //    public string DisplayName { get; set; }
-
-    //    /// <summary>
-    //    /// Default filename for the template file
-    //    /// </summary>
-    //    public string TemplateFileName { get; set; }
-        
-    //    /// <summary>
-    //    /// Contents of the template that will be saved to disk on load of the component
-    //    /// </summary>
-    //    public string TemplateContents { get; set; }        
-    //};
-
     public class ConfigurationInfo
     {
         #region Constructor 
-        public ConfigurationInfo() {
+        public ConfigurationInfo()
+        {
+            var currPath = Utility.GetToolSettingsFolder();
+
             ModuleName = "MyProject";
             ModuleNotes = "A CRM Typescript Project";
-            ScriptTemplate = @"C:\Temp\";
+            LanguageCode = 1033;
+            SettingsFileName = Path.Combine(currPath, "TypescriptHelper.xml");
 
             AttributeFilters = new List<FilterInfo>() {
                 new FilterInfo(){ FilterString = "versionnumber", FilterMatchType =EnumFilterMatchType.Equals },
@@ -89,12 +96,14 @@ namespace Xrm.Tools
                 new FilterInfo(){ FilterString = "overriddencreatedon", FilterMatchType =EnumFilterMatchType.Equals }
             };
 
-            EntityFilters = new List<FilterInfo>() { new FilterInfo() { FilterString = "syncerror", FilterMatchType = EnumFilterMatchType.Equals } };
+            EntityFilters = new List<FilterInfo>() {
+                new FilterInfo() { FilterString = "syncerror", FilterMatchType = EnumFilterMatchType.Equals },
+                new FilterInfo() { FilterString = "_bpf_", FilterMatchType = EnumFilterMatchType.Contains }
+            };
 
             EntityTypes = EnumEntityTypes.BothCustomAndSystem;
-            RetrieveAsIfPublished = false;
-            TemplateContent = Properties.Resources.Angular_Xrm_ts_xml;
-            ScriptTemplate = "Angular.Xrm.ts.Xml";
+            RetrieveAsIfPublished = true;
+            ScriptTemplate = Path.Combine(currPath, "Angular.Xrm.ts.Xml");
         }
         #endregion
 
@@ -158,6 +167,71 @@ namespace Xrm.Tools
 
             return filtersMatch;
         }
+        #endregion
+
+        #region Save/Load methods
+        public void ValidateCurrentTemplate()
+        {
+            var templateContent = Properties.Resources.Angular_Xrm_ts_xml;
+
+            // load the script template from the embedded resource and update if different
+            // check the version in the template 
+            var updateTemplate = true;
+            if (File.Exists(ScriptTemplate)) 
+            {
+                // load the template that we embedded as a resource 
+                var newDoc = new XmlDocument();
+                newDoc.LoadXml(templateContent);
+
+                var newDate = DateTime.Now;
+                DateTime.TryParse(newDoc.DocumentElement.GetAttribute("lastUpdate"), out newDate);
+
+                // load the old document
+                var oldDoc = new XmlDocument();
+                oldDoc.Load(ScriptTemplate);
+
+                var oldDate = DateTime.MinValue;
+                DateTime.TryParse(oldDoc.DocumentElement.GetAttribute("lastUpdate"), out oldDate);
+
+                if (newDate > oldDate) {
+                    if (DialogResult.Yes != MessageBox.Show("A newer version of the template has been included with this version. " +
+                        "Would you like to use the updated version?", "Updated Template", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) {
+                        updateTemplate = false;
+                    }
+                }
+            }
+
+            // update the current file... 
+            if (updateTemplate) {
+                File.WriteAllText(ScriptTemplate, templateContent);
+            }
+        }
+
+        public void SaveConfiguration(string fileName) {
+            
+            // serialize to disk...
+            var settings = new XmlWriterSettings { Indent = true };
+            var serializer = new DataContractSerializer(typeof(ConfigurationInfo), new List<Type> { typeof(FilterInfo) });
+
+            using (var w = XmlWriter.Create(fileName, settings)) {
+                serializer.WriteObject(w, this);
+            }
+        }
+
+        public ConfigurationInfo LoadConfiguration(string fileName) {
+            ConfigurationInfo config = null;
+
+            // deserialize from file
+            if (File.Exists(fileName)) 
+            {
+                using (var reader = new StreamReader(fileName)) {
+                    var serializer = new DataContractSerializer(typeof(ConfigurationInfo), new List<Type> { typeof(FilterInfo) });
+                    config = (ConfigurationInfo)serializer.ReadObject(reader.BaseStream);
+                }
+            }
+
+            return config;
+        }
 
         #endregion
 
@@ -185,6 +259,12 @@ namespace Xrm.Tools
         [ListBindable(BindableSupport.Yes)]
         public List<FilterInfo> AttributeFilters { get; set; }
 
+        [DisplayName("Include Virual Attribute Types")]
+        [Description("Flag indicating whether to output Virtual Attribute types, such as owneridname") ]
+        [Category("Filter Settings")]
+        [DefaultValue(false)]
+        public bool IncludeVirtualAttribute { get; set; }
+
         [DisplayName("Entity Types")]
         [Description("Which Entity types should be loaded on retrieve.")]
         [Category("Filter Settings")]
@@ -200,22 +280,19 @@ namespace Xrm.Tools
         [Category("Project Settings")]
         public bool RetrieveAsIfPublished { get; set; }
 
-        //[Browsable(false)]
-        //[DisplayName("Script Frameworks")]
-        //[Description("List of available script frameworks for the TypeScript output.")]
-        //[Category("Project Settings")]
-        //public ScriptFramework[] ScriptFrameworks { get; set; }
-
-        [Browsable(false)]
-        [DisplayName("Script Template Contents")]
-        [Description("Default script frameworks for the TypeScript output.")]
+        [DisplayName("Default Language Code")]
+        [Description("Language code to be used if LocalizedLabels are present for Entity and Attribute properties")]
         [Category("Project Settings")]
-        public string TemplateContent { get; set; }
+        public int LanguageCode { get; set; }
 
         [DisplayName("Logging Level")]
         [Description("Toggle to enable logging while generating the templates")]
         [Category("Project Settings")]
         public EnumLoggingLevel LoggingLevel { get; set; }
+
+        [Category("All Settings")]
+        [Description("Name of the exported settings file")]
+        public string SettingsFileName { get; set; }
 
         #endregion
     }

@@ -26,20 +26,9 @@
             return filter;
         }
 
-        private static string getFilter(string type, string ext) {
+        public static string getFilter(string type, string ext) {
             return string.Format("{0} (*{1})|*{1}", type, ext);
         }
 
-        //public static string GetTabs()
-        //{
-        //    return GetTabs(1);
-        //    }
-        //    public static string GetTabs(int count) {
-        //    var tabs = "";
-        //    for (int i=0; i < count; i++) {
-        //        tabs += TAB;
-        //    }
-        //    return tabs;
-        //}
     }
 }

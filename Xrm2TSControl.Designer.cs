@@ -33,8 +33,8 @@ namespace Xrm.Tools
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Xrm2TSControl));
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("System", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Custom", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("System", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Custom", System.Windows.Forms.HorizontalAlignment.Left);
             this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.toolButtonCloseTab = new System.Windows.Forms.ToolStripButton();
             this.toolButtonLoadEntities = new System.Windows.Forms.ToolStripButton();
@@ -55,16 +55,22 @@ namespace Xrm.Tools
             this.colSchemaName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tableLayoutRight = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainerLeftPane = new System.Windows.Forms.SplitContainer();
+            this.textCheckedEntitiesList = new System.Windows.Forms.TextBox();
             this.labelSelectedEntities = new System.Windows.Forms.Label();
-            this.listBoxSelectedEntities = new System.Windows.Forms.ListBox();
             this.propertyGridConfig = new System.Windows.Forms.PropertyGrid();
+            this.toolDropDownConfig = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuLoadConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuSaveConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
-            this.tableLayoutRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftPane)).BeginInit();
+            this.splitContainerLeftPane.Panel1.SuspendLayout();
+            this.splitContainerLeftPane.Panel2.SuspendLayout();
+            this.splitContainerLeftPane.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMain
@@ -81,10 +87,11 @@ namespace Xrm.Tools
             this.toolStripSeparator2,
             this.toolButtonDocumentation,
             this.toolLinkGenerateChecked,
-            this.toolLinkGenerateSelected});
+            this.toolLinkGenerateSelected,
+            this.toolDropDownConfig});
             this.toolStripMain.Location = new System.Drawing.Point(0, 0);
             this.toolStripMain.Name = "toolStripMain";
-            this.toolStripMain.Size = new System.Drawing.Size(870, 25);
+            this.toolStripMain.Size = new System.Drawing.Size(995, 25);
             this.toolStripMain.TabIndex = 0;
             this.toolStripMain.Text = "Typescript Helper Class Utility";
             // 
@@ -215,9 +222,9 @@ namespace Xrm.Tools
             // 
             // splitContainerMain.Panel2
             // 
-            this.splitContainerMain.Panel2.Controls.Add(this.tableLayoutRight);
-            this.splitContainerMain.Size = new System.Drawing.Size(870, 616);
-            this.splitContainerMain.SplitterDistance = 584;
+            this.splitContainerMain.Panel2.Controls.Add(this.splitContainerLeftPane);
+            this.splitContainerMain.Size = new System.Drawing.Size(995, 616);
+            this.splitContainerMain.SplitterDistance = 667;
             this.splitContainerMain.SplitterWidth = 6;
             this.splitContainerMain.TabIndex = 2;
             // 
@@ -232,20 +239,21 @@ namespace Xrm.Tools
             this.colDescription});
             this.listViewEntities.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewEntities.FullRowSelect = true;
-            listViewGroup1.Header = "System";
-            listViewGroup1.Name = "System";
-            listViewGroup1.Tag = "System";
-            listViewGroup2.Header = "Custom";
-            listViewGroup2.Name = "Custom";
-            listViewGroup2.Tag = "Custom";
+            listViewGroup3.Header = "System";
+            listViewGroup3.Name = "System";
+            listViewGroup3.Tag = "System";
+            listViewGroup4.Header = "Custom";
+            listViewGroup4.Name = "Custom";
+            listViewGroup4.Tag = "Custom";
             this.listViewEntities.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
             this.listViewEntities.HideSelection = false;
             this.listViewEntities.Location = new System.Drawing.Point(0, 0);
             this.listViewEntities.MultiSelect = false;
             this.listViewEntities.Name = "listViewEntities";
-            this.listViewEntities.Size = new System.Drawing.Size(584, 616);
+            this.listViewEntities.Size = new System.Drawing.Size(667, 616);
+            this.listViewEntities.Sorting = System.Windows.Forms.SortOrder.Descending;
             this.listViewEntities.TabIndex = 0;
             this.listViewEntities.Tag = "0";
             this.listViewEntities.UseCompatibleStateImageBehavior = false;
@@ -283,51 +291,81 @@ namespace Xrm.Tools
             this.colDescription.Text = "Description";
             this.colDescription.Width = 300;
             // 
-            // tableLayoutRight
+            // splitContainerLeftPane
             // 
-            this.tableLayoutRight.ColumnCount = 1;
-            this.tableLayoutRight.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutRight.Controls.Add(this.labelSelectedEntities, 0, 1);
-            this.tableLayoutRight.Controls.Add(this.listBoxSelectedEntities, 0, 2);
-            this.tableLayoutRight.Controls.Add(this.propertyGridConfig, 0, 0);
-            this.tableLayoutRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutRight.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutRight.Name = "tableLayoutRight";
-            this.tableLayoutRight.RowCount = 3;
-            this.tableLayoutRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 300F));
-            this.tableLayoutRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutRight.Size = new System.Drawing.Size(280, 616);
-            this.tableLayoutRight.TabIndex = 0;
+            this.splitContainerLeftPane.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerLeftPane.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerLeftPane.Name = "splitContainerLeftPane";
+            this.splitContainerLeftPane.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerLeftPane.Panel1
+            // 
+            this.splitContainerLeftPane.Panel1.Controls.Add(this.propertyGridConfig);
+            // 
+            // splitContainerLeftPane.Panel2
+            // 
+            this.splitContainerLeftPane.Panel2.Controls.Add(this.textCheckedEntitiesList);
+            this.splitContainerLeftPane.Panel2.Controls.Add(this.labelSelectedEntities);
+            this.splitContainerLeftPane.Size = new System.Drawing.Size(322, 616);
+            this.splitContainerLeftPane.SplitterDistance = 334;
+            this.splitContainerLeftPane.SplitterWidth = 6;
+            this.splitContainerLeftPane.TabIndex = 12;
+            // 
+            // textCheckedEntitiesList
+            // 
+            this.textCheckedEntitiesList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textCheckedEntitiesList.Location = new System.Drawing.Point(0, 26);
+            this.textCheckedEntitiesList.Multiline = true;
+            this.textCheckedEntitiesList.Name = "textCheckedEntitiesList";
+            this.textCheckedEntitiesList.ReadOnly = true;
+            this.textCheckedEntitiesList.Size = new System.Drawing.Size(322, 250);
+            this.textCheckedEntitiesList.TabIndex = 11;
             // 
             // labelSelectedEntities
             // 
-            this.labelSelectedEntities.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelSelectedEntities.Dock = System.Windows.Forms.DockStyle.Top;
             this.labelSelectedEntities.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectedEntities.Location = new System.Drawing.Point(3, 300);
+            this.labelSelectedEntities.Location = new System.Drawing.Point(0, 0);
             this.labelSelectedEntities.Name = "labelSelectedEntities";
-            this.labelSelectedEntities.Size = new System.Drawing.Size(274, 26);
-            this.labelSelectedEntities.TabIndex = 9;
+            this.labelSelectedEntities.Size = new System.Drawing.Size(322, 26);
+            this.labelSelectedEntities.TabIndex = 10;
             this.labelSelectedEntities.Text = "Checked Entities";
             this.labelSelectedEntities.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // listBoxSelectedEntities
-            // 
-            this.listBoxSelectedEntities.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxSelectedEntities.FormattingEnabled = true;
-            this.listBoxSelectedEntities.Location = new System.Drawing.Point(3, 329);
-            this.listBoxSelectedEntities.Name = "listBoxSelectedEntities";
-            this.listBoxSelectedEntities.Size = new System.Drawing.Size(274, 284);
-            this.listBoxSelectedEntities.TabIndex = 8;
             // 
             // propertyGridConfig
             // 
             this.propertyGridConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGridConfig.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.propertyGridConfig.Location = new System.Drawing.Point(3, 3);
+            this.propertyGridConfig.Location = new System.Drawing.Point(0, 0);
             this.propertyGridConfig.Name = "propertyGridConfig";
-            this.propertyGridConfig.Size = new System.Drawing.Size(274, 294);
-            this.propertyGridConfig.TabIndex = 10;
+            this.propertyGridConfig.Size = new System.Drawing.Size(322, 334);
+            this.propertyGridConfig.TabIndex = 15;
+            // 
+            // toolDropDownConfig
+            // 
+            this.toolDropDownConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolDropDownConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuLoadConfig,
+            this.toolStripMenuSaveConfig});
+            this.toolDropDownConfig.Image = ((System.Drawing.Image)(resources.GetObject("toolDropDownConfig.Image")));
+            this.toolDropDownConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolDropDownConfig.Name = "toolDropDownConfig";
+            this.toolDropDownConfig.Size = new System.Drawing.Size(94, 22);
+            this.toolDropDownConfig.Text = "Configuration";
+            // 
+            // toolStripMenuLoadConfig
+            // 
+            this.toolStripMenuLoadConfig.Name = "toolStripMenuLoadConfig";
+            this.toolStripMenuLoadConfig.Size = new System.Drawing.Size(177, 22);
+            this.toolStripMenuLoadConfig.Text = "Load Configuration";
+            this.toolStripMenuLoadConfig.Click += new System.EventHandler(this.toolStripMenuLoadConfig_Click);
+            // 
+            // toolStripMenuSaveConfig
+            // 
+            this.toolStripMenuSaveConfig.Name = "toolStripMenuSaveConfig";
+            this.toolStripMenuSaveConfig.Size = new System.Drawing.Size(177, 22);
+            this.toolStripMenuSaveConfig.Text = "Save Configuration";
+            this.toolStripMenuSaveConfig.Click += new System.EventHandler(this.toolStripMenuSaveConfig_Click);
             // 
             // Xrm2TSControl
             // 
@@ -336,7 +374,7 @@ namespace Xrm.Tools
             this.Controls.Add(this.splitContainerMain);
             this.Controls.Add(this.toolStripMain);
             this.Name = "Xrm2TSControl";
-            this.Size = new System.Drawing.Size(870, 641);
+            this.Size = new System.Drawing.Size(995, 641);
             this.Load += new System.EventHandler(this.Xrm2TSControl_Load);
             this.toolStripMain.ResumeLayout(false);
             this.toolStripMain.PerformLayout();
@@ -344,7 +382,11 @@ namespace Xrm.Tools
             this.splitContainerMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
             this.splitContainerMain.ResumeLayout(false);
-            this.tableLayoutRight.ResumeLayout(false);
+            this.splitContainerLeftPane.Panel1.ResumeLayout(false);
+            this.splitContainerLeftPane.Panel2.ResumeLayout(false);
+            this.splitContainerLeftPane.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftPane)).EndInit();
+            this.splitContainerLeftPane.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -362,12 +404,8 @@ namespace Xrm.Tools
         private ColumnHeader colSchemaName;
         private ColumnHeader colState;
         private ColumnHeader colDescription;
-        private TableLayoutPanel tableLayoutRight;
-        private Label labelSelectedEntities;
-        private ListBox listBoxSelectedEntities;
         private ToolStripLabel toolStripLabelFilter;
         private ToolStripTextBox toolStripTextFilter;
-        private PropertyGrid propertyGridConfig;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton toolButtonDocumentation;
@@ -376,5 +414,12 @@ namespace Xrm.Tools
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripButton toolLinkGenerateChecked;
         private ToolStripButton toolLinkGenerateSelected;
+        private SplitContainer splitContainerLeftPane;
+        private TextBox textCheckedEntitiesList;
+        private Label labelSelectedEntities;
+        private ToolStripDropDownButton toolDropDownConfig;
+        private ToolStripMenuItem toolStripMenuLoadConfig;
+        private ToolStripMenuItem toolStripMenuSaveConfig;
+        private PropertyGrid propertyGridConfig;
     }
 }

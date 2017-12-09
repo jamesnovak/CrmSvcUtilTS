@@ -1,4 +1,4 @@
-<!-- 
+	<!--
 // some hard wired properties available from the settings 
 {#module_name#}  - name of the parent script module
 {#module_notes#}  - description of the template contents
@@ -16,15 +16,14 @@
 
 // attributes have some special outputs
 {#attr dt(AttributeType)#} - data type converted to script data type.  
-                        NOTE: only applies to the attribute property of AttributeType which is an AttributeTypeCode 
-
-{#attr api(SchemaName)#} - requires special formatting for the WebAPI calls to work
-                         NOTE: only applies to the attribute SchemaName
--->
-<template>
-  <![CDATA[ 
-/** @description {#module_notes#}
- */  
+                             NOTE: only applies to the attribute property of AttributeType which is an AttributeTypeCode 
+{#attr api(SchemaName)#}   - requires special formatting for the WebAPI calls to work
+                             NOTE: only applies to the attribute SchemaName
+	-->
+<template version="1.0" lastUpdate="12/09/2017">
+	<![CDATA[
+/** @description {#module_notes#} 
+*/
 module {#module_name#} {
 	/** @description Specifies that Entities always have a url route and optionally have an id
 	 */  
@@ -74,7 +73,7 @@ module {#module_name#} {
 		padLeadingZeros(num: number, precision: number): string;
 		cleanGuid(guid: string, removeDashes?: boolean): string;
 		reopenForm(entityName: string, entityId: string): void;
-    markAllFieldReadOnly(): void;
+      markAllFieldReadOnly(): void;
 	}
 
 	export class Utils implements IUtils {
@@ -161,8 +160,8 @@ module {#module_name#} {
 			parent.Xrm.Utility.openEntityForm(entityName, entityId);
 		}
     /**
-      * set all of the fields on the form as read only
-      */
+     * set all of the fields on the form as read only
+     */
     markAllFieldReadOnly(): void {
         var page: any = parent.Xrm.Page.ui;
         page.controls
@@ -171,7 +170,7 @@ module {#module_name#} {
                     control.setDisabled(true);
                 }
             });
-    }    
+        }
 	}
 
 	/** @description An Angular WebAPI Service for Dynamics CRM  
@@ -211,8 +210,8 @@ module {#module_name#} {
 				return this.$http.get<T>(url, this.getConfig(formattedValues));
 			}
 			else {
-			return this.$http.get<T>(url);
-		}
+			    return this.$http.get<T>(url);
+		    }
 		}
 
 		/** @description Performs a CRM WebAPI Retrieve for a nextLink URL on expanded attributes or collections
@@ -258,8 +257,8 @@ module {#module_name#} {
 				return this.$http.get<T>(url, this.getConfig(formattedValues));
 			}
 			else {
-			return this.$http.get<T>(url);
-		}
+			    return this.$http.get<T>(url);
+		    }
 		}
 
 		/** @description Performs a CRM WebAPI Update
@@ -352,11 +351,11 @@ module {#module_name#} {
 			}
 			return config;
 		} 
-	}	  
-	  ]]>
-	  <entity>
-      <!-- Begin new Entity generation -->
-		  <![CDATA[
+	}
+]]>
+	<entity>
+		<!-- Begin new Entity generation -->
+		<![CDATA[
 	//** @description AUTO GENERATED CLASSES FOR {#ent title(LogicalName)#}
 	// ------------------------------------------------------------------------------------------
 	//** @description WebAPI collection interface for {#ent title(LogicalName)#} */
@@ -364,49 +363,51 @@ module {#module_name#} {
 
 	//** @description WebAPI interface for {#ent title(LogicalName)#} */
 	export interface I{#ent title(LogicalName)#} {
-		[key: string]: string | number ]]>
-      <!-- Attributes for base Interface-->
-      <attribute_list>
-        <![CDATA[		{#attr api(SchemaName)#}?: {#attr dt(AttributeType)#}]]>
-      </attribute_list>
-      <![CDATA[
+		[key: string]: string | number 
+		]]>
+		<!-- Attributes for base Interface-->
+		<attribute_list>
+			<![CDATA[		{#attr api(SchemaName)#}?: {#attr dt(AttributeType)#}]]>
+		</attribute_list>
+		<![CDATA[
   }
   
   //** Collection of Attribute structures for {#ent title(LogicalName)#} */
-  export class {#ent (LogicalName)#}Attributes {
- ]]>
-      <!-- Attributes for Attributes list -->
-      <attribute_list>
-        <![CDATA[		{#attr lower(SchemaName)#}: IAttribName = { name:"{#attr lower(SchemaName)#}", api_name:"{#attr api(SchemaName)#}" } ]]>
-      </attribute_list>
-      <![CDATA[
+  export class {#ent title(LogicalName)#}Attributes {
+		]]>
+		<!-- Attributes for Attributes list -->
+		<attribute_list>
+			<![CDATA[		{#attr lower(SchemaName)#}: IAttribName = { name:"{#attr lower(SchemaName)#}", api_name:"{#attr api(SchemaName)#}" } ]]>
+		</attribute_list>
+		<![CDATA[
 	}
 
   /** @description Instantiates a {#ent title(LogicalName)#} Entity to be used for CRUD based operations
   * @param {object} initData An optional parameter for a create and update entities */
-  export class {#ent (LogicalName)#} extends Entity {
+    export class {#ent title(LogicalName)#} extends Entity {
 		[key: string]: string | number
-		public route: string = "{#ent title(LogicalName)#}s";
- ]]>
-      <!-- Attributes for entity fields -->
-      <attribute_list>
-        <![CDATA[		public {#attr api(SchemaName)#}:{#attr dt(AttributeType)#};]]>
-      </attribute_list>
-      <![CDATA[
+		public route: string = "{#ent lower(LogicalName)#}s";
+		]]>
+		<!-- Attributes for entity fields -->
+		<attribute_list>
+			<![CDATA[		public {#attr api(SchemaName)#}:{#attr dt(AttributeType)#};]]>
+		</attribute_list>
+		<![CDATA[
 		constructor(initData?: I{#ent title(LogicalName)#}) {
 			super("{#ent lower(LogicalName)#}s");
 			if (initData == undefined) { return; } 
       
-			this.id = initData.{#ent (PrimaryIdAttribute)#};]]>
-      <!-- Attributes for entity contstuctor intialization -->
-      <attribute_list>
-        <![CDATA[			this.{#attr api(SchemaName)#} = initData.{#attr api(SchemaName)#};]]>
-      </attribute_list>
-      <![CDATA[
+			this.id = initData.{#ent (PrimaryIdAttribute)#};
+		]]>
+		<!-- Attributes for entity contstuctor intialization -->
+		<attribute_list>
+			<![CDATA[			this.{#attr api(SchemaName)#} = initData.{#attr api(SchemaName)#};]]>
+		</attribute_list>
+		<![CDATA[
 		}
 	}]]>
-    <!-- End new Entity generation -->
-    </entity>
-  <![CDATA[
+		<!-- End new Entity generation -->
+	</entity>
+	<![CDATA[
 }]]>
 </template>

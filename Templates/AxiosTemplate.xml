@@ -25,7 +25,7 @@
   <![CDATA[
 /** @description {#module_notes#}
  */
-module {#module_name# } {
+module {#module_name#} {
 	/** @description Specifies that Entities always have a url route and optionally have an id
 	 */
     export abstract class Entity {
