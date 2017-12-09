@@ -11,12 +11,9 @@ using XrmToolBox.Extensibility.Interfaces;
 
 using Xrm.Tools.Helper;
 using System.Diagnostics;
-<<<<<<< HEAD
+
 using System.IO;
 using Microsoft.Xrm.Sdk;
-=======
-using System.Linq.Expressions;
->>>>>>> bacc348c211a97bfc8c1fab1c6ae38ca2205b844
 
 namespace Xrm.Tools
 {
@@ -518,182 +515,7 @@ namespace Xrm.Tools
             UpdateSelectedItemsList();
         }
         #endregion
-        
-        /// <summary>
-        /// Get's the name of a resource.. as long as you add it through the designer... and it's xml
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        static string GetNameOf<T>(Expression<Func<T>> property)
-        {
-            return $"{(property.Body as MemberExpression).Member.Name}.xml";
-        }
 
-<<<<<<< HEAD
-=======
-        #region Initialization
-
-        /// <summary>
-        /// Handle the startup of the control
-        /// </summary>
-        private void InitializeControl()
-        {
-            // init to disabled
-            ToggleToolbarButtonsEnabled(false);
-
-            // set up some of the config info.
-            var config = new ConfigurationInfo();
-
-            config.ScriptTemplate = writeTemplates(config.ScriptTemplate, config.TemplateContent);
-            writeTemplates(GetNameOf(() => Properties.Resources.AxiosTemplate), Properties.Resources.AxiosTemplate);
-
-            string writeTemplates(string fileName, string fileContent)
-            {
-                var filePath = Path.Combine(Utility.GetToolSettingsFolder(), fileName);
-                if (File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
-
-                File.WriteAllText(filePath, fileContent);
-
-                return filePath;
-            }
-
-            // set up the properties grid with the config settings
-            propertyGridConfig.SelectedObject = config;
-        }
-
-        /// <summary>
-        /// Update the list of selected items based on the list of Checked items in the list view
-        /// </summary>
-        private void UpdateSelectedItemsList()
-        {
-            if (_performingBulkSelection) {
-                return;
-            }
-
-            if (_selectedItems == null) {
-                _selectedItems = new List<string>();
-            }
-
-            if (listViewEntities.CheckedItems.Count == 0) {
-                _selectedItems.Clear();
-            }
-            else
-            {
-                foreach (ListViewItem item in listViewEntities.Items)
-                {
-                    var displayName = string.Format("{0} ({1})", item.Text, item.SubItems["Name"].Text);
-                    if (item.Checked)
-                    {
-                        // if not already added, add the checked item
-                        if (!_selectedItems.Contains(displayName)) {
-                            _selectedItems.Add(displayName);
-                        }
-                    }
-                    else
-                    {
-                        // if already added, then remove it
-                        if (_selectedItems.Contains(displayName)) {
-                            _selectedItems.Remove(displayName);
-                        }
-                    }
-                }
-            }
-
-            var selItemsBinding = new BindingSource();
-            selItemsBinding.DataSource = _selectedItems;
-            listBoxSelectedEntities.DataSource = selItemsBinding;
-        }
-        /// <summary>
-        /// Filter the entities list using the text in the text box.
-        /// </summary>
-        private void FilterEntitiesList()
-        {
-            _performingBulkSelection = true;
-
-            listViewEntities.SuspendLayout();
-            listBoxSelectedEntities.SuspendLayout();
-
-            // 
-            if (toolStripTextFilter.Text.Length > 0)
-            {
-                // filter the master list and bind it to the list view
-                var filteredList = _entitiesListViewItemsColl
-                    .Where(i => i.Text.ToLower().Contains(toolStripTextFilter.Text.ToLower()) ||
-                        i.SubItems["Name"].Text.ToLower().Contains(toolStripTextFilter.Text.ToLower())
-                    );
-
-                // for some reason, on filter, the group gets lost
-                listViewEntities.Items.Clear();
-                listViewEntities.Items.AddRange(filteredList.ToArray<ListViewItem>());
-            }
-            else
-            {
-                // clear filter 
-                listViewEntities.Items.Clear();
-                listViewEntities.Items.AddRange(_entitiesListViewItemsColl.ToArray<ListViewItem>());
-            }
-
-            // for some reason, on filter, the group gets lost
-            ResetGroups(_entitiesListViewItemsColl);
-
-            _performingBulkSelection = false;
-
-            // now that we have an updated list view, udpate the list of selected items
-            UpdateSelectedItemsList();
-
-            listViewEntities.ResumeLayout();
-            listBoxSelectedEntities.ResumeLayout();
-        }
-
-        /// <summary>
-        /// Reset the groups on the list view control
-        /// </summary>
-        /// <param name="items"></param>
-        private void ResetGroups(List<ListViewItem> items)
-        {
-            // for some reason, on filter, the group gets lost
-            foreach (ListViewItem item in items)
-            {
-                var entity = item.Tag as EntityMetadata;
-                var entityType = (entity.IsCustomEntity.Value) ? "Custom" : "System";
-                item.Group = listViewEntities.Groups[entityType];
-            }
-        }
-
-        /// <summary>
-        /// Handle the sorting on each column,using the sort provider
-        /// </summary>
-        /// <param name="column"></param>
-        private void SortEntitiesList(int column)
-        {
-            _performingBulkSelection = true;
-
-            listViewEntities.SuspendLayout();
-            listBoxSelectedEntities.SuspendLayout();
-
-            if (column == int.Parse(listViewEntities.Tag.ToString()))
-            {
-                listViewEntities.Sorting = ((this.listViewEntities.Sorting == SortOrder.Ascending) ? SortOrder.Descending : SortOrder.Ascending);
-                listViewEntities.ListViewItemSorter = new ListViewItemComparer(column, listViewEntities.Sorting);
-                return;
-            }
-            listViewEntities.Tag = column;
-            listViewEntities.ListViewItemSorter = new ListViewItemComparer(column, SortOrder.Ascending);
-
-            _performingBulkSelection = false;
-
-            UpdateSelectedItemsList();
-
-            listViewEntities.ResumeLayout();
-            listBoxSelectedEntities.ResumeLayout();
-        }
-        #endregion
-
->>>>>>> bacc348c211a97bfc8c1fab1c6ae38ca2205b844
         #region UI event handlers
         private void Xrm2TSControl_Load(object sender, EventArgs e)
         {
@@ -800,7 +622,6 @@ namespace Xrm.Tools
                 }
             }
         }
-
         #endregion
     }
 }
