@@ -1,7 +1,8 @@
 # CrmSvcUtilTS
 A utility that generates typescript that aids in WebAPI calls and form scripting
 
-## 12/09/2017 Latest checkin notes include
+**12/09/2017**
+## Latest checkin notes include
 * Adding ability to save and load configuration settings, such as entity and attribute filters. 
 * Added filter on Virtual Attributes to reduce noise in the generated template.
 * Added Language Code value to ensure that labels are consistent if more than one Localized Label is present.
