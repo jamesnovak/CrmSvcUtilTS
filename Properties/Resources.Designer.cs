@@ -82,6 +82,27 @@ namespace Xrm.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!-- 
+        ///// some hard wired properties available from the settings 
+        ///{#module_name#}  - name of the parent script module
+        ///{#module_notes#}  - description of the template contents
+        ///
+        ///// Entity metadata property escape syntax
+        ///{#ent (property)#}      - raw property name.  Ex: {#ent(IsSLAEnabled)#}
+        ///
+        ///// Entity metadata property escape syntax
+        ///{#attr (property)#}      - raw property name.  Ex: {#ent(AttributeType)#}
+        ///
+        ///// Both Entity and Attribute metadata objects support these escape methods
+        ///{#attr upper(prope [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AxiosTemplate {
+            get {
+                return ResourceManager.GetString("AxiosTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://github.com/jamesnovak/CrmSvcUtilTS/wiki.
         /// </summary>
         internal static string github_help_url {

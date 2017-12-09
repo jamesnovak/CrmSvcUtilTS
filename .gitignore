@@ -288,3 +288,8 @@ __pycache__/
 *.xsd.cs
 
 NuGet/
+/Xrm.ts
+/Xrm.Template.Sample.xml
+/index.html
+/app.ts
+/Angular.Xrm.ts.xml
