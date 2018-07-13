@@ -61,7 +61,7 @@ namespace Xrm.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!-- 
+        ///   Looks up a localized string similar to 	&lt;!--
         ///// some hard wired properties available from the settings 
         ///{#module_name#}  - name of the parent script module
         ///{#module_notes#}  - description of the template contents

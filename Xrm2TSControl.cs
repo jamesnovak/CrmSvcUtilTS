@@ -3,6 +3,11 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+using System.IO;
+
+using Microsoft.Xrm.Sdk;
+using McTools.Xrm.Connection;
+
 using Microsoft.Xrm.Sdk.Metadata;
 
 using XrmToolBox.Extensibility;
@@ -11,9 +16,6 @@ using XrmToolBox.Extensibility.Interfaces;
 
 using Xrm.Tools.Helper;
 using System.Diagnostics;
-
-using System.IO;
-using Microsoft.Xrm.Sdk;
 
 namespace Xrm.Tools
 {
@@ -38,6 +40,22 @@ namespace Xrm.Tools
             InitializeComponent();
         }
 
+        /// <summary>
+        /// This event occurs when the connection has been updated in XrmToolBox
+        /// </summary>
+        public override void UpdateConnection(IOrganizationService newService, ConnectionDetail detail, string actionName, object parameter)
+        {
+            base.UpdateConnection(newService, detail, actionName, parameter);
+
+            LogInfo("Connection has changed to: {0}", detail.WebApplicationUrl);
+
+            // now that the connection has been updated, reload entities
+            ClearEntitiesList();
+
+            if (propertyGridConfig.SelectedObject != null) {
+                ExecuteMethod(LoadEntities);
+            }
+        }
         #region Initialization
 
         /// <summary>
@@ -256,12 +274,6 @@ namespace Xrm.Tools
             // persist the list of list view items for the filtering
             _entitiesListViewItemsColl = new List<ListViewItem>();
 
-            //entities.Sort(delegate (EntityMetadata x, EntityMetadata y) {
-            //    var nameX = (x.DisplayName.LocalizedLabels.Count > 0) ? x.DisplayName.LocalizedLabels[0].Label : x.SchemaName;
-            //    var nameY = (y.DisplayName.LocalizedLabels.Count > 0) ? y.DisplayName.LocalizedLabels[0].Label : y.SchemaName;
-            //    return nameX.CompareTo(nameY);
-            //});
-
             foreach (var entity in entities)
             {
                 // filter based on configuration settings
@@ -322,6 +334,12 @@ namespace Xrm.Tools
 
             // reenable the export toolbar
             ToggleToolbarButtonsEnabled(true);
+        }
+
+        private void ClearEntitiesList() {
+            _entitiesListViewItemsColl = new List<ListViewItem>();
+            listViewEntities.Items.Clear();
+            UpdateSelectedItemsList();
         }
 
         /// <summary>
@@ -546,7 +564,7 @@ namespace Xrm.Tools
 
         private void ToolButtonCloseTab_Click(object sender, EventArgs e)
         {
-            this.CloseTool();
+            CloseTool();
         }
 
         private void ToolStripTextFilter_TextChanged(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 # CrmSvcUtilTS
 A utility that generates typescript that aids in WebAPI calls and form scripting
 
+[CrmSvcUtilTS](https://github.com/jamesnovak/CrmSvcUtilTS/)
 
 ## 12/09/2017 - Latest checkin includes:
 * Adding ability to save and load configuration settings, such as entity and attribute filters. 

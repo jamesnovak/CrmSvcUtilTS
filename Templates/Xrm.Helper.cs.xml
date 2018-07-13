@@ -20,7 +20,7 @@
 {#attr api(SchemaName)#}   - requires special formatting for the WebAPI calls to work
                              NOTE: only applies to the attribute SchemaName
 	-->
-<template version="1.0" lastUpdate="07/12/2018">
+<template version="1.0" lastUpdate="12/11/2017">
 	<![CDATA[
 /** @description {#module_notes#} 
 */
@@ -31,7 +31,7 @@ module {#module_name#} {
 		constructor(public route: string, public id?: string) { }
 	}
 
-	/** @description Interface for retrieve multiple datasets in CRM
+	/** 
 	 *  @type generic type that corresponds with the entity being returned
 	 */ 
 	export interface IRetrieveMultipleData<T> {
